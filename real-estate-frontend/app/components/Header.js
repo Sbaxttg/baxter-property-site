@@ -34,7 +34,7 @@ export default function Header() {
             Active Listings
           </Link>
           <Link href="/past-clients" className="transition hover:text-white">
-            Past Clients
+            Client Testimonials
           </Link>
           <Link href="/home-buying-process" className="transition hover:text-white whitespace-nowrap">
             Home Buying Process

@@ -4,19 +4,19 @@ import Link from 'next/link';
 
 const testimonials = [
   {
-    name: 'Client A.',
-    location: 'Prince William County, VA',
+    name: 'Lucy Anderson',
+    location: 'Triangle, VA',
     quote:
-      'Gaudy guided us through our first purchase with clarity and patience. We felt prepared at every step and never rushed.',
+      'Ms. Baxter is very professional with her work. She treats her clients like family. She goes above and beyond in her line of work. Will recommend her anytime.',
   },
   {
-    name: 'Client B.',
+    name: 'Joanne',
     location: 'Alexandria, VA',
     quote:
       'Excellent communication, smart strategy, and a smooth closing. We truly felt taken care of from start to finish.',
   },
   {
-    name: 'Client C.',
+    name: 'Delmer Portillo',
     location: 'Woodbridge, VA',
     quote:
       'Relocation was stressful, but Gaudy handled the details and kept us on track. We landed in the right home fast.',
@@ -41,11 +41,14 @@ export default function PastClientsPage() {
             Baxter Property Solutions
           </p>
           <h1 className="mt-4 heading-xl">
-            Past Clients
+            Client Testimonials
           </h1>
           <p className="mt-4 max-w-3xl body-copy text-white/80">
-            Real stories from clients who trusted Gaudy Baxter with their home
-            goals.
+            Nothing means more to me than the trust my clients place in me during
+            one of the most important decisions of their lives. I'm proud to
+            have helped families, first-time buyers, military members, and
+            investors achieve their real estate goals. Here's what some of them
+            had to say about their experience.
           </p>
         </header>
 
