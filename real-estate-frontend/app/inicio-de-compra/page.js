@@ -56,7 +56,7 @@ export default function InicioDeCompraPage() {
             <img
               src="/images/spanish.png"
               alt="Inicio de compra"
-              className="framed-image h-full w-full object-cover"
+              className="framed-image h-full w-full object-contain md:object-cover"
             />
             <div className="absolute inset-0 bg-slate-950/20" />
           </div>
