@@ -20,20 +20,26 @@ const hasDatabaseConfig = Boolean(
         process.env.DB_PASSWORD &&
         process.env.DB_PORT
 );
+const databaseUrl = process.env.DATABASE_URL;
 
 const inMemoryInquiries = [];
 let inMemoryId = 1;
 
 // Database connection (optional for local dev)
-const pool = hasDatabaseConfig
+const pool = databaseUrl
     ? new Pool({
-          user: process.env.DB_USER,
-          host: process.env.DB_HOST,
-          database: process.env.DB_NAME,
-          password: process.env.DB_PASSWORD,
-          port: Number(process.env.DB_PORT),
+          connectionString: databaseUrl,
+          ssl: { rejectUnauthorized: false },
       })
-    : null;
+    : hasDatabaseConfig
+      ? new Pool({
+            user: process.env.DB_USER,
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            password: process.env.DB_PASSWORD,
+            port: Number(process.env.DB_PORT),
+        })
+      : null;
 
 // Test database connection
 if (pool) {
