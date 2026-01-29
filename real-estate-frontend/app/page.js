@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -78,11 +78,14 @@ export default function Home() {
                   Contact Me
                 </Link>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-[10px] text-white/70">
-                <span className="rounded-full bg-white/10 px-3 py-1 backdrop-blur">
+              <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-white/80">
+                <a
+                  href="mailto:Gaudy.baxter@cbmove.com"
+                  className="rounded-full bg-white/10 px-4 py-2 backdrop-blur transition hover:bg-white/20 hover:shadow-[0_0_18px_rgba(124,199,255,0.75)]"
+                >
                   Gaudy.baxter@cbmove.com
-                </span>
-                <span className="rounded-full bg-white/10 px-3 py-1 backdrop-blur">
+                </a>
+                <span className="rounded-full bg-white/10 px-4 py-2 backdrop-blur">
                   571-422-8343
                 </span>
               </div>
@@ -157,7 +160,7 @@ export default function Home() {
             <img
               src="/images/Logo.png"
               alt="Coldwell Baxter Realty"
-              className="framed-image logo-pop relative z-10 h-20 w-auto drop-shadow-2xl sm:h-24 md:h-28"
+              className="logo-pop relative z-10 h-24 w-auto drop-shadow-2xl sm:h-28 md:h-32"
             />
           </div>
         </section>

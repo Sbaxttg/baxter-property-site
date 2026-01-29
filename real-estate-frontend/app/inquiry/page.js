@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function InquiryPage() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
   const [formData, setFormData] = useState({
     name: '',
     phone: '',

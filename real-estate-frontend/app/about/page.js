@@ -21,19 +21,35 @@ export default function AboutPage() {
           <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
             Meet Gaudy Baxter
           </h1>
+          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.18em] text-white/70">
+            Coldwell Baxter Realty – Alexandria Office
+          </p>
           <p className="mt-4 max-w-3xl text-lg text-white/80">
-            A trusted advisor with a deep Northern Virginia perspective and a
-            dedication to clients who deserve exceptional guidance.
+            A trusted real estate advisor known for a client-first approach,
+            deep market knowledge, and a commitment to exceptional service.
+            Serving the DMV.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             <span className="rounded-full bg-white/15 px-4 py-2">
-              Coldwell Baxter Realty – Alexandria Office
+              First-Time Homebuyer Expert
             </span>
             <span className="rounded-full bg-white/15 px-4 py-2">
-              Military relocation specialist
+              Military &amp; Veteran Relocation Specialist
             </span>
             <span className="rounded-full bg-white/15 px-4 py-2">
-              First-time homebuyer advocate
+              Spanish-Speaking Realtor (Bilingual: English &amp; Spanish)
+            </span>
+            <span className="rounded-full bg-white/15 px-4 py-2">
+              Local Market Expert
+            </span>
+            <span className="rounded-full bg-white/15 px-4 py-2">
+              Negotiation Specialist
+            </span>
+            <span className="rounded-full bg-white/15 px-4 py-2">
+              New Construction &amp; Builder Transactions
+            </span>
+            <span className="rounded-full bg-white/15 px-4 py-2">
+              Listing Strategy &amp; Home Preparation
             </span>
           </div>
         </header>

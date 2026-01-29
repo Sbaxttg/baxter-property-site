@@ -7,7 +7,7 @@ const ADMIN_PASSWORD = 'Bbfg3pd##';
 
 export default function AdminPage() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
   const [password, setPassword] = useState('');
   const [authorized, setAuthorized] = useState(false);
   const [submissions, setSubmissions] = useState([]);

@@ -13,24 +13,41 @@ const corsOptions =
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Database connection
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: Number(process.env.DB_PORT),
-});
+const hasDatabaseConfig = Boolean(
+    process.env.DB_USER &&
+        process.env.DB_HOST &&
+        process.env.DB_NAME &&
+        process.env.DB_PASSWORD &&
+        process.env.DB_PORT
+);
+
+const inMemoryInquiries = [];
+let inMemoryId = 1;
+
+// Database connection (optional for local dev)
+const pool = hasDatabaseConfig
+    ? new Pool({
+          user: process.env.DB_USER,
+          host: process.env.DB_HOST,
+          database: process.env.DB_NAME,
+          password: process.env.DB_PASSWORD,
+          port: Number(process.env.DB_PORT),
+      })
+    : null;
 
 // Test database connection
-pool.connect((err, client, release) => {
-    if (err) {
-        console.error('Error connecting to database:', err.stack);
-    } else {
-        console.log('Connected to PostgreSQL database');
-        release();
-    }
-});
+if (pool) {
+    pool.connect((err, client, release) => {
+        if (err) {
+            console.error('Error connecting to database:', err.stack);
+        } else {
+            console.log('Connected to PostgreSQL database');
+            release();
+        }
+    });
+} else {
+    console.warn('Database not configured. Using in-memory inquiries store.');
+}
 
 // POST endpoint - Submit form
 app.post('/api/inquiries', async (req, res) => {
@@ -40,6 +57,22 @@ app.post('/api/inquiries', async (req, res) => {
     if (!name || !phone || !email || !message) {
         return res.status(400).json({
             error: 'Please provide name, phone, email, and message',
+        });
+    }
+
+    if (!pool) {
+        const inquiry = {
+            id: inMemoryId++,
+            name,
+            phone,
+            email,
+            message,
+            created_at: new Date().toISOString(),
+        };
+        inMemoryInquiries.unshift(inquiry);
+        return res.status(201).json({
+            message: 'Inquiry submitted successfully',
+            inquiry,
         });
     }
 
@@ -61,6 +94,13 @@ app.post('/api/inquiries', async (req, res) => {
 
 // GET endpoint - Get all inquiries
 app.get('/api/inquiries', async (req, res) => {
+    if (!pool) {
+        return res.status(200).json({
+            count: inMemoryInquiries.length,
+            inquiries: inMemoryInquiries,
+        });
+    }
+
     try {
         const result = await pool.query(
             'SELECT * FROM inquiries ORDER BY created_at DESC'

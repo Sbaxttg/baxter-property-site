@@ -1,20 +1,67 @@
 'use client';
 
+import { useState } from 'react';
+
 export default function InicioDeCompraPage() {
+  const apiBaseUrl =
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: '',
+  });
+  const [submitStatus, setSubmitStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setSubmitStatus('');
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/api/inquiries`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 px-4 py-12">
       <div className="mx-auto w-full max-w-5xl section-stack">
-        <header className="relative min-h-[360px] overflow-hidden rounded-3xl bg-slate-950/60 p-8 text-white shadow-2xl md:min-h-[440px]">
+        <header className="relative min-h-[360px] overflow-hidden rounded-3xl bg-slate-950/10 p-8 text-white shadow-2xl md:min-h-[440px]">
           <div className="absolute inset-0">
             <img
               src="/images/spanish.png"
               alt="Inicio de compra"
-              className="framed-image h-full w-full object-contain"
+              className="framed-image h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-950/55" />
+            <div className="absolute inset-0 bg-slate-950/20" />
           </div>
           <div className="relative select-none">
-            <p className="text-base font-bold uppercase tracking-[0.3em] text-white/85">
+            <p className="text-base font-bold uppercase tracking-[0.3em] text-white/90 drop-shadow">
               Baxter Property Solutions
             </p>
           </div>
@@ -82,35 +129,39 @@ export default function InicioDeCompraPage() {
             Completa el formulario y me pondré en contacto contigo lo antes posible.
           </p>
 
-          <form className="mt-8 space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>
               <label
-                htmlFor="nombre"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Nombre completo
               </label>
               <input
                 type="text"
-                id="nombre"
-                name="nombre"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                placeholder="Your Name"
+                placeholder="Tu nombre"
               />
             </div>
 
             <div>
               <label
-                htmlFor="telefono"
+                htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Número de teléfono
               </label>
               <input
                 type="tel"
-                id="telefono"
-                name="telefono"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="(555) 123-4567"
@@ -119,15 +170,17 @@ export default function InicioDeCompraPage() {
 
             <div>
               <label
-                htmlFor="correo"
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Correo electrónico
               </label>
               <input
                 type="email"
-                id="correo"
-                name="correo"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="tu.correo@ejemplo.com"
@@ -136,14 +189,16 @@ export default function InicioDeCompraPage() {
 
             <div>
               <label
-                htmlFor="mensaje"
+                htmlFor="message"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Mensaje
               </label>
               <textarea
-                id="mensaje"
-                name="mensaje"
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows="4"
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -151,10 +206,30 @@ export default function InicioDeCompraPage() {
               />
             </div>
 
-            <button type="submit" className="w-full btn-primary">
-              Enviar solicitud
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full btn-primary disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Enviando...' : 'Enviar solicitud'}
             </button>
           </form>
+
+          {submitStatus === 'success' && (
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-green-800 font-medium">
+                ✓ Solicitud enviada con éxito. Me pondré en contacto pronto.
+              </p>
+            </div>
+          )}
+
+          {submitStatus === 'error' && (
+            <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-800 font-medium">
+                ✗ No se pudo enviar la solicitud. Inténtalo de nuevo.
+              </p>
+            </div>
+          )}
         </section>
       </div>
     </main>
