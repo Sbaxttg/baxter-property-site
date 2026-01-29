@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
   const [isInicioOpen, setIsInicioOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-950 text-white shadow-lg">
@@ -20,6 +21,15 @@ export default function Header() {
             className="framed-image h-16 w-auto opacity-95 mix-blend-screen brightness-110 sm:h-20 md:h-24 lg:h-28"
           />
         </Link>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/90 transition hover:border-white/50 hover:text-white lg:hidden"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          aria-expanded={isMobileMenuOpen}
+          aria-label="Toggle navigation menu"
+        >
+          {isMobileMenuOpen ? 'Close' : 'Menu'}
+        </button>
         <nav className="hidden flex-1 flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium text-white/80 lg:flex">
           <Link href="/" className="transition hover:text-white">
             Home
@@ -80,6 +90,82 @@ export default function Header() {
           </Link>
         </nav>
       </div>
+      {isMobileMenuOpen && (
+        <nav className="lg:hidden border-t border-white/10 bg-slate-950/95 px-6 py-4 text-sm text-white/90">
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About Me
+            </Link>
+            <Link
+              href="/inquiry"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Contact Me
+            </Link>
+            <Link
+              href="/active-listings"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Active Listings
+            </Link>
+            <Link
+              href="/past-clients"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Client Testimonials
+            </Link>
+            <Link
+              href="/home-buying-process"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home Buying Process
+            </Link>
+            <Link
+              href="/financing-landing"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Financing
+            </Link>
+            <Link
+              href="/inicio-de-compra"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Inicio De Compra
+            </Link>
+            <Link
+              href="/preguntas-frecuentes"
+              className="transition hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Preguntas Frecuentes
+            </Link>
+            <Link
+              href="/admin"
+              className="rounded-full border border-white/20 px-3 py-2 text-white/90 transition hover:border-white/50 hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Admin
+            </Link>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
