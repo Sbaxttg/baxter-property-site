@@ -81,9 +81,6 @@ export default function AdminPage() {
               >
                 Sign In
               </button>
-              <p className="text-xs text-gray-500">
-                The admin password is stored on the backend (Render).
-              </p>
             </form>
           </section>
         ) : (
