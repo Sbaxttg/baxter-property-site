@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-
 export default function AdminPage() {
   const apiBaseUrl =
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
@@ -18,31 +16,25 @@ export default function AdminPage() {
     event.preventDefault();
     setErrorMessage('');
 
-    if (!ADMIN_PASSWORD) {
-      setErrorMessage(
-        'Admin password is not configured. Set NEXT_PUBLIC_ADMIN_PASSWORD.'
-      );
-      return;
-    }
-
-    if (password !== ADMIN_PASSWORD) {
-      setErrorMessage('Incorrect password.');
-      return;
-    }
-
-    setAuthorized(true);
-    await fetchSubmissions();
+    await fetchSubmissions(password, true);
   };
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = async (passwordOverride, authorizeOnSuccess) => {
     setIsLoading(true);
     setErrorMessage('');
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/inquiries`);
+      const response = await fetch(`${apiBaseUrl}/api/inquiries`, {
+        headers: {
+          'x-admin-password': passwordOverride ?? password,
+        },
+      });
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data?.error || 'Failed to load inquiries');
+      }
+      if (authorizeOnSuccess) {
+        setAuthorized(true);
       }
       setSubmissions(data.inquiries || []);
     } catch (error) {
@@ -90,7 +82,7 @@ export default function AdminPage() {
                 Sign In
               </button>
               <p className="text-xs text-gray-500">
-                Set `NEXT_PUBLIC_ADMIN_PASSWORD` in Vercel before going live.
+                The admin password is stored on the backend (Render).
               </p>
             </form>
           </section>

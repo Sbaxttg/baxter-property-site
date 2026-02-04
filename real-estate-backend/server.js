@@ -26,6 +26,23 @@ const corsOptions =
 app.use(cors(corsOptions));
 app.use(express.json());
 
+const adminPassword = process.env.ADMIN_PASSWORD;
+
+const requireAdminPassword = (req, res, next) => {
+    if (!adminPassword) {
+        return res
+            .status(500)
+            .json({ error: 'Admin password is not configured.' });
+    }
+
+    const providedPassword = req.headers['x-admin-password'];
+    if (providedPassword !== adminPassword) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    return next();
+};
+
 const hasDatabaseConfig = Boolean(
     process.env.DB_USER &&
         process.env.DB_HOST &&
@@ -112,7 +129,7 @@ app.post('/api/inquiries', async (req, res) => {
 });
 
 // GET endpoint - Get all inquiries
-app.get('/api/inquiries', async (req, res) => {
+app.get('/api/inquiries', requireAdminPassword, async (req, res) => {
     if (!pool) {
         return res.status(200).json({
             count: inMemoryInquiries.length,
