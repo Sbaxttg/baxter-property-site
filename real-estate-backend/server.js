@@ -8,8 +8,21 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 const frontendOrigin = process.env.FRONTEND_ORIGIN || '*';
+const allowedOrigins = frontendOrigin
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 const corsOptions =
-    frontendOrigin === '*' ? {} : { origin: frontendOrigin };
+    frontendOrigin === '*' || allowedOrigins.length === 0
+        ? {}
+        : {
+              origin: (origin, callback) => {
+                  if (!origin || allowedOrigins.includes(origin)) {
+                      return callback(null, true);
+                  }
+                  return callback(new Error('Not allowed by CORS'));
+              },
+          };
 app.use(cors(corsOptions));
 app.use(express.json());
 

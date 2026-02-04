@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const ADMIN_PASSWORD = 'Bbfg3pd##';
+const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 
 export default function AdminPage() {
   const apiBaseUrl =
@@ -17,6 +17,13 @@ export default function AdminPage() {
   const handleLogin = async (event) => {
     event.preventDefault();
     setErrorMessage('');
+
+    if (!ADMIN_PASSWORD) {
+      setErrorMessage(
+        'Admin password is not configured. Set NEXT_PUBLIC_ADMIN_PASSWORD.'
+      );
+      return;
+    }
 
     if (password !== ADMIN_PASSWORD) {
       setErrorMessage('Incorrect password.');
@@ -83,7 +90,7 @@ export default function AdminPage() {
                 Sign In
               </button>
               <p className="text-xs text-gray-500">
-                Change the password in `app/admin/page.js` before going live.
+                Set `NEXT_PUBLIC_ADMIN_PASSWORD` in Vercel before going live.
               </p>
             </form>
           </section>
