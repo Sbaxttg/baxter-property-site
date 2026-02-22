@@ -4,13 +4,13 @@ const IDX_MAP_SEARCH_URL = 'https://baxterpropertysolutions.idxbroker.com/idx/ma
 
 export default function ActiveListingsPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-gray-50">
-      <div className="border-b border-gray-200 bg-white px-4 py-3 shadow-sm">
-        <p className="text-center text-sm text-gray-600">
+    <main className="flex h-[100dvh] max-h-[100dvh] flex-col overflow-hidden bg-gray-50">
+      <div className="flex-shrink-0 border-b border-gray-200 bg-white px-3 py-2 sm:px-4 sm:py-3 shadow-sm">
+        <p className="text-center text-xs text-gray-600 sm:text-sm">
           Search live MLS listings below. Results are pulled directly from the MLS via IDX Broker.
         </p>
       </div>
-      <div className="relative flex-1" style={{ minHeight: 'calc(100vh - 140px)' }}>
+      <div className="relative min-h-0 flex-1">
         <iframe
           src={IDX_MAP_SEARCH_URL}
           title="MLS Map Search - Baxter Property Solutions"
