@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   const [formData, setFormData] = useState({
     name: '',
     phone: '',

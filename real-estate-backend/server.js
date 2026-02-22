@@ -85,7 +85,8 @@ if (pool) {
     console.warn('Database not configured. Using in-memory inquiries store.');
 }
 
-// POST endpoint - Submit form
+// POST endpoint - Submit contact form. All submissions are stored here and
+// displayed on the Admin page (GET /api/inquiries with admin password).
 app.post('/api/inquiries', async (req, res) => {
     const { name, phone, email, message } = req.body;
 

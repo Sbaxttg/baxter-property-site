@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function AdminPage() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   const [password, setPassword] = useState('');
   const [authorized, setAuthorized] = useState(false);
   const [submissions, setSubmissions] = useState([]);
@@ -38,7 +38,17 @@ export default function AdminPage() {
       }
       setSubmissions(data.inquiries || []);
     } catch (error) {
-      setErrorMessage(error.message || 'Failed to load inquiries.');
+      const isNetworkError =
+        error.message === 'Failed to fetch' ||
+        error.message === 'Load failed' ||
+        error.message?.includes('NetworkError');
+      if (isNetworkError) {
+        setErrorMessage(
+          'Could not connect to the server. In production, the backend must be deployed and NEXT_PUBLIC_API_URL must be set in Vercel (Environment Variables).'
+        );
+      } else {
+        setErrorMessage(error.message || 'Failed to load inquiries.');
+      }
     } finally {
       setIsLoading(false);
     }

@@ -83,6 +83,22 @@ export default function FinancingLandingPage() {
             from consultation to closing.
           </p>
         </section>
+
+        <section className="rounded-3xl bg-white p-6 shadow-xl">
+          <h2 className="heading-lg text-gray-900">Mortgage Tools</h2>
+          <p className="mt-2 body-copy text-gray-600">
+            Use the tools below to explore rates, calculators, and mortgage options.
+          </p>
+          <div className="mt-6 overflow-hidden rounded-xl border border-gray-200" style={{ minHeight: '600px' }}>
+            <iframe
+              src="https://baxterpropertysolutions.idxbroker.com/idx/mortgage"
+              title="Mortgage tools - Baxter Property Solutions"
+              className="h-full w-full border-0"
+              style={{ minHeight: '600px' }}
+              allowFullScreen
+            />
+          </div>
+        </section>
       </div>
     </main>
   );

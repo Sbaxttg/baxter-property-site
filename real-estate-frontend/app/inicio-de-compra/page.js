@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function InicioDeCompraPage() {
   const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
